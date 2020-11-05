@@ -5,7 +5,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import org.json.simple.JSONObject;
 
 
 import java.io.FileReader;
@@ -26,17 +25,18 @@ public class Main {
 
         String json = listToJson(list);
 
-        JSONObject obj = writeString(json);
+        String obj = writeString(json);
 
     }
 
-    protected static JSONObject writeString(JSONObject json){
+    protected static String writeString(String json){
 
         try (FileWriter file = new FileWriter("new_data.json"))
-        { file.write(json.toJSONString());
+        { file.write(json.toString());
         file.flush();
 
         } catch (IOException e) {   e.printStackTrace();}
+        return json;
     }
 
     protected static String listToJson(List<Employee> list) {
@@ -48,7 +48,7 @@ public class Main {
 
         String json = gson.toJson(list, listType);
 
-        return null;
+        return json;
 
     }
 
