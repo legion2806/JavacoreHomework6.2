@@ -31,7 +31,7 @@ public class Main {
 
     protected static String writeString(String json){
 
-        try (FileWriter file = new FileWriter("new_data.json"))
+        try (FileWriter file = new FileWriter("data.json"))
         { file.write(json.toString());
         file.flush();
 
@@ -54,7 +54,7 @@ public class Main {
 
     protected static List parseCSV(String[] columnMapping, String fileName) {
 
-        try (CSVReader csvReader = new CSVReader(new FileReader("staff.csv"))) {
+        try (CSVReader csvReader = new CSVReader(new FileReader("data.csv"))) {
             ColumnPositionMappingStrategy<Employee> strategy = new ColumnPositionMappingStrategy<>();
 
             strategy.setType(Employee.class);
