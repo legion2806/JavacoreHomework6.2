@@ -18,6 +18,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -54,10 +55,20 @@ public class Main {
         List<Employee> staff = new ArrayList<>();
 
         NodeList nodeList = root.getChildNodes();
+
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
-            staff = node.getNodeName();
+            Element element = (Element) nodeList;
+            int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
+            String firstName = element.getElementsByTagName("firstName").item(0).getTextContent();
+            String lastName = element.getElementsByTagName("lastName").item(0).getTextContent();
+            String counrty = element.getElementsByTagName("country").item(0).getTextContent();
+            int age = Integer.parseInt(element.getElementsByTagName("age").item(0).getTextContent());
+
+            Employee employee = new Employee(id, firstName, lastName, counrty, age);
+            staff = Arrays.asList(employee);
         }
+
         return staff;
     }
 
