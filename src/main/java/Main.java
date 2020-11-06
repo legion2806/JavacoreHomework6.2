@@ -44,7 +44,7 @@ public class Main {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
 
-        Type listType = new TypeToken<List<Object>>() {}.getType();
+        Type listType = new TypeToken<List<Employee>>() {}.getType();
 
         String json = gson.toJson(list, listType);
 
@@ -53,6 +53,9 @@ public class Main {
     }
 
     protected static List parseCSV(String[] columnMapping, String fileName) {
+
+        List<Employee> staff = parseCSV(columnMapping, fileName);
+        staff.forEach(System.out::println);
 
         try (CSVReader csvReader = new CSVReader(new FileReader("data.csv"))) {
             ColumnPositionMappingStrategy<Employee> strategy = new ColumnPositionMappingStrategy<>();
@@ -64,14 +67,11 @@ public class Main {
                     .withMappingStrategy(strategy)
                     .build();
 
-            List<Employee> staff = csv.parse();
-            staff.forEach(System.out::println);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return staff;
     }
 
 
