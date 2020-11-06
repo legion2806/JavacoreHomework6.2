@@ -55,7 +55,11 @@ public class Main {
 
     protected static List parseCSV(String[] columnMapping, String fileName) {
 
+        System.out.println("gggg");
+
         List<Employee> staff = new ArrayList<>();
+
+        System.out.println(3);
 
         try (CSVReader csvReader = new CSVReader(new FileReader("data.csv"))) {
             ColumnPositionMappingStrategy<Employee> strategy = new ColumnPositionMappingStrategy<>();
