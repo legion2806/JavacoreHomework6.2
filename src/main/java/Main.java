@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -54,8 +55,7 @@ public class Main {
 
     protected static List parseCSV(String[] columnMapping, String fileName) {
 
-        List<Employee> staff = parseCSV(columnMapping, fileName);
-        staff.forEach(System.out::println);
+        List<Employee> staff = new ArrayList<>();
 
         try (CSVReader csvReader = new CSVReader(new FileReader("data.csv"))) {
             ColumnPositionMappingStrategy<Employee> strategy = new ColumnPositionMappingStrategy<>();
@@ -67,11 +67,14 @@ public class Main {
                     .withMappingStrategy(strategy)
                     .build();
 
+            staff = csv.parse();
+            staff.forEach(System.out::println);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return staff;
+
     }
 
 
