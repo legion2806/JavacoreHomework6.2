@@ -5,8 +5,14 @@ import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,18 +22,43 @@ import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
 
         String[] columnMapping = {"id", "firstName", "lastName", "country", "age"};
 
         String fileName = "data.csv";
 
-        List<Employee> list = parseCSV(columnMapping, fileName);
+        List<Employee> listCsv = parseCSV(columnMapping, fileName);
 
-        String json = listToJson(list);
+        String jsonCsv = listToJson(listCsv);
 
-        String obj = writeString(json);
+        String objCsv = writeString(jsonCsv);
 
+        List<Employee> listXml = parseXML("data.xml");
+
+        String jsonXml = listToJson(listXml);
+
+        String objXml = writeString(jsonXml);
+
+    }
+
+    private static List<Employee> parseXML(String s) throws ParserConfigurationException, IOException, SAXException {
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.parse(new File("data.xml"));
+
+        Node root = doc.getDocumentElement();
+        System.out.println("Корневой элемент: " + root.getNodeName());
+
+        List<Employee> staff = new ArrayList<>();
+
+        NodeList nodeList = root.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            staff = node.getNodeName();
+        }
+        return staff;
     }
 
     protected static String writeString(String json){
@@ -55,11 +86,7 @@ public class Main {
 
     protected static List parseCSV(String[] columnMapping, String fileName) {
 
-        System.out.println("gggg");
-
         List<Employee> staff = new ArrayList<>();
-
-        System.out.println(3);
 
         try (CSVReader csvReader = new CSVReader(new FileReader("data.csv"))) {
             ColumnPositionMappingStrategy<Employee> strategy = new ColumnPositionMappingStrategy<>();
