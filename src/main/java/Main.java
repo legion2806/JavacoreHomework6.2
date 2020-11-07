@@ -58,15 +58,17 @@ public class Main {
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
-            Element element = (Element) nodeList;
-            int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
-            String firstName = element.getElementsByTagName("firstName").item(0).getTextContent();
-            String lastName = element.getElementsByTagName("lastName").item(0).getTextContent();
-            String counrty = element.getElementsByTagName("country").item(0).getTextContent();
-            int age = Integer.parseInt(element.getElementsByTagName("age").item(0).getTextContent());
+            if (Node.ELEMENT_NODE == node.getNodeType()) {
+                Element element = (Element) node;
+                int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
+                String firstName = element.getElementsByTagName("firstName").item(0).getTextContent();
+                String lastName = element.getElementsByTagName("lastName").item(0).getTextContent();
+                String counrty = element.getElementsByTagName("country").item(0).getTextContent();
+                int age = Integer.parseInt(element.getElementsByTagName("age").item(0).getTextContent());
 
-            Employee employee = new Employee(id, firstName, lastName, counrty, age);
-            staff = Arrays.asList(employee);
+                Employee employee = new Employee(id, firstName, lastName, counrty, age);
+                staff.add(employee);
+            }
         }
 
         return staff;
